@@ -1,49 +1,69 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React, { Component } from 'react';
+import { TouchableOpacity, AsyncStorage, View, 
+         Text, StyleSheet } from 'react-native';
+let styles = {};
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+const bestPlayers = [{
+  name: 'Maria Polyakov',
+  age: '13 years',
+  position: 'Center Midfielder'
+},{
+  name: 'Edward Polyakov',
+  age: '10 years',
+  position: 'Forward'
+}]
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+const key = 'player';
 
-type Props = {};
-export default class App extends Component<Props> {
-  render() {
+export default class App extends Component {
+  constructor () {
+    super()
+    this.state = {
+      bestPlayer: {}
+    };
+    this.getPlayer= this.getPlayer.bind(this);
+  }
+  componentDidMount () {
+    const bestPlayerIdx = Math.ceil(Math.random() * bestPlayers.length);
+    const bestPlayer = bestPlayers[bestPlayerIdx - 1];
+    AsyncStorage.setItem(key, JSON.stringify(bestPlayer))
+      .then(() => console.log('item stored...'))
+      .catch((err) => console.log('err: ', err))
+  }
+  getPlayer () {
+    AsyncStorage.getItem(key)
+      .then((res) => this.setState({ bestPlayer: JSON.parse(res) }))
+      .catch((err) => console.log('err: ', err))
+  }
+  render () {
+    const { bestPlayer } = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <Text style={{textAlign: 'center'}}>Who is the best player?</Text>
+        <TouchableOpacity onPress={this.getPlayer} 
+                            style={styles.button}>
+          <Text>Get Best Soccer Player</Text>
+        </TouchableOpacity>
+        <Text>{bestPlayer.name}</Text>
+        <Text>{bestPlayer.age}</Text>
+        <Text>{bestPlayer.position}</Text>
       </View>
-    );
+    )
   }
 }
 
-const styles = StyleSheet.create({
+styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
+    flex: 1,
+    margin: 20
+  },
+  button: {
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 20,
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    height: 55,
+    backgroundColor: '#dddddd'
+  }
 });
