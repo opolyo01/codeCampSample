@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, AsyncStorage, View, 
+import { TouchableOpacity, View, 
          Text, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+
 let styles = {};
 
 const bestPlayers = [{
