@@ -57,8 +57,10 @@ export default class App extends Component {
     let data = [];
     let labels = [];
     records.forEach((user) => {
-      labels.push(user);
-      data.push(record[user]);
+      if (user) {
+        labels.push(user);
+        data.push(record[user]);
+      }
     });
     const barChartData = {
       labels,
