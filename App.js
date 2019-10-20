@@ -1,54 +1,98 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View, 
-         Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, View, Dimensions,
+         Text, StyleSheet, Picker } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import {
+  BarChart
+} from "react-native-chart-kit";
+
+const screenWidth = Dimensions.get("window").width;
 
 let styles = {};
 
-const bestPlayers = [{
-  name: 'Maria Polyakov',
-  age: '13 years',
-  position: 'Center Midfielder'
-},{
-  name: 'Edward Polyakov',
-  age: '10 years',
-  position: 'Forward'
-}]
-
-const key = 'player';
+const key = 'record';
 
 export default class App extends Component {
   constructor () {
-    super()
+    super();
     this.state = {
-      bestPlayer: {}
+      user: '',
+      record: {},
     };
-    this.getPlayer= this.getPlayer.bind(this);
+    this.updateUser= this.updateUser.bind(this);
+    this.submitUpdateUser = this.submitUpdateUser.bind(this);
   }
+
+  updateUser = (user) => {
+    this.setState({ user });
+  }
+
+  submitUpdateUser = () => {
+    const {record, user} = this.state;
+    if (record[user]) {
+      record[user] = record[user] + 1;
+    } else  {
+      record[user] = 1;
+    }
+    
+    AsyncStorage.setItem(key, JSON.stringify(record))
+      .then(() => this.setState({record}))
+      .catch((err) => console.log('err: ', err))
+  }
+
   componentDidMount () {
-    const bestPlayerIdx = Math.ceil(Math.random() * bestPlayers.length);
-    const bestPlayer = bestPlayers[bestPlayerIdx - 1];
-    AsyncStorage.setItem(key, JSON.stringify(bestPlayer))
-      .then(() => console.log('item stored...'))
-      .catch((err) => console.log('err: ', err))
-  }
-  getPlayer () {
     AsyncStorage.getItem(key)
-      .then((res) => this.setState({ bestPlayer: JSON.parse(res) }))
+      .then((res) => this.setState({ record: JSON.parse(res||{}) }))
       .catch((err) => console.log('err: ', err))
   }
+
   render () {
-    const { bestPlayer } = this.state;
+    const {record} = this.state;
+    const records = Object.keys(record);
+    const recordView = records.map((user) => {
+      return (
+        <Text key={user}>{user}  {record[user]} time champion</Text>
+      )
+    });
+    let data = [];
+    let labels = [];
+    records.forEach((user) => {
+      labels.push(user);
+      data.push(record[user]);
+    });
+    const barChartData = {
+      labels,
+      datasets: [
+        {
+          data
+        }
+      ]
+    };
+    const chartConfig = {
+      color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+      strokeWidth: 2, // optional, default 3
+      barPercentage:1
+    };
     return (
       <View style={styles.container}>
-        <Text style={{textAlign: 'center'}}>Who is the best player?</Text>
-        <TouchableOpacity onPress={this.getPlayer} 
+        <View>
+          <Text style={{textAlign: 'center'}}>Who is the best player?</Text>
+          <Picker selectedValue = {this.state.user} onValueChange = {this.updateUser}>
+              <Picker.Item label = "Ronaldo" value = "ronaldo" />
+              <Picker.Item label = "Maria" value = "maria" />
+              <Picker.Item label = "Messi" value = "messi" />
+              <Picker.Item label = "Edward" value = "edward" />
+          </Picker>
+          <TouchableOpacity onPress={this.submitUpdateUser}
                             style={styles.button}>
-          <Text>Get Best Soccer Player</Text>
-        </TouchableOpacity>
-        <Text>{bestPlayer.name}</Text>
-        <Text>{bestPlayer.age}</Text>
-        <Text>{bestPlayer.position}</Text>
+            <Text>Submit The Best Soccer Player</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <Text style={{textAlign: 'center'}}>Stats</Text>
+          {recordView}
+        </View>
+        <BarChart data={barChartData} width={screenWidth} height={220} chartConfig={chartConfig} />
       </View>
     )
   }
@@ -66,6 +110,12 @@ styles = StyleSheet.create({
     marginBottom: 20,
     alignItems: 'center',
     height: 55,
+    borderRadius: 12,
     backgroundColor: '#dddddd'
-  }
+  },
+  text: {
+    fontSize: 30,
+    alignSelf: 'center',
+    color: 'red'
+   }
 });

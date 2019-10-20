@@ -4658,6 +4658,11 @@ path-type@^3.0.0:
   dependencies:
     pify "^3.0.0"
 
+paths-js@^0.4.10:
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/paths-js/-/paths-js-0.4.10.tgz#a3575f409b4a36f8aa795ba4d051989021be58c7"
+  integrity sha512-JZoqlRSHtx+bc+xKI9o4bropEbqZBF4ZfYImiB1T9RYpHB73h5I8XZ7FfSBbHbBMtdD1c04ujjAPH8wUuu4+Gw==
+
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
@@ -4716,6 +4721,11 @@ pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
   integrity sha512-2qHaIQr2VLRFoxe2nASzsV6ef4yOOH+Fi9FBOVH6cqeSgUnoyySPZkxzLuzd+RYOQTRpROA0ztTMqxROKSb/nA==
+
+point-in-polygon@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/point-in-polygon/-/point-in-polygon-1.0.1.tgz#d59b64e8fee41c49458aac82b56718c5957b2af7"
+  integrity sha1-1Ztk6P7kHElFiqyCtWcYxZV7Kvc=
 
 posix-character-classes@^0.1.0:
   version "0.1.1"
@@ -4868,6 +4878,20 @@ react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6:
   version "16.10.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.10.2.tgz#984120fd4d16800e9a738208ab1fba422d23b5ab"
   integrity sha512-INBT1QEgtcCCgvccr5/86CfD71fw9EPmDxgiJX4I2Ddr6ZsV6iFXsuby+qWJPtmNuMY0zByTsG4468P7nHuNWA==
+
+react-native-chart-kit@^3.10.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/react-native-chart-kit/-/react-native-chart-kit-3.10.0.tgz#9e975e968d79437000545a7fbbed2c1dd23c26db"
+  integrity sha512-oV8DYaPZL8gUJhsV8XcToFeg0ZfI1QVDFI5yOOVP2UQ088pPIq20Qxbj+h4e6oMcCRgVLzdbVprtUUGn6BMAjA==
+  dependencies:
+    lodash "^4.17.11"
+    paths-js "^0.4.10"
+    point-in-polygon "^1.0.1"
+
+react-native-svg@^9.12.0:
+  version "9.12.0"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-9.12.0.tgz#ddb6302358dfd75af3000f0fed67b26923a92dd8"
+  integrity sha512-NoEiYCmTqgNtjDhTHfB7iARGz4AkTzu191Rr6jrGTchp5/ZdwpmYG/9qXWXTDDNULX5xChljI6IL/gkynfEenw==
 
 react-native@0.59.7:
   version "0.59.7"
